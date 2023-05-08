@@ -1,37 +1,23 @@
 const socket = io();
 
-const productForm = document.getElementById('productForm');
-const productName = document.getElementById('productName');
-const productPrice = document.getElementById('productPrice');
-const productList = document.getElementById('productList');
-
-productForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const name = productName.value.trim();
-    const price = parseFloat(productPrice.value.trim());
-    if (name && price) {
-        const product = {
-            id: Date.now().toString(),
-            name,
-            price,
-        };
-        socket.emit('addProduct', product);
-        productName.value = '';
-        productPrice.value = '';
-    }
+socket.on('productsUpdated', (products) => {
+    const productsList = document.getElementById('productsList');
+    productsList.innerHTML = '';
+    products.forEach(product => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${product.title} - $${product.price}`;
+        productsList.appendChild(listItem);
+    });
 });
 
-socket.on('products', (products) => {
-    productList.innerHTML = '';
-    products.forEach(product => {
-        const productItem = document.createElement('li');
-        productItem.innerText = `${product.name} - $${product.price}`;
-        const deleteButton = document.createElement('button');
-        deleteButton.innerText = 'Delete';
-        deleteButton.addEventListener('click', () => {
-            socket.emit('deleteProduct', product.id);
-        });
-        productItem.appendChild(deleteButton);
-        productList.appendChild(productItem);
-    });
+const newProductForm = document.getElementById('newProductForm');
+newProductForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('description').value;
+    const code = document.getElementById('code').value;
+    const price = document.getElementById('price').value;
+    const stock = document.getElementById('stock').value;
+    const category = document.getElementById('category').value;
+    socket.emit('newProduct', { title, description, code, price, stock, category });
 });

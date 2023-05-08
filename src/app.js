@@ -21,7 +21,29 @@ app.set('views', './src/views')
 app.set('view engine', 'handlebars')
 app.use(express.static('./src/public'))
 app.use('/', routerViews)
-
 app.use('/api/products', productsRoutes);
 app.use('/api/carts', cartsRouter);
+
+
+// Configuramos el servidor de WebSockets
+io.on('connection', (socket) => {
+    console.log('New user connected');
+
+    // Emitimos el evento de actualización de productos a todos los clientes conectados
+    const updateProducts = () => {
+        io.emit('updateProducts');
+    };
+
+    // Escuchamos el evento de creación de un nuevo producto
+    socket.on('newProduct', () => {
+        updateProducts();
+    });
+
+    // Escuchamos el evento de eliminación de un producto
+    socket.on('deleteProduct', () => {
+        updateProducts();
+    });
+});
+
+module.exports = app;
 
