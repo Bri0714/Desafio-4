@@ -1,23 +1,25 @@
 const socket = io();
 
-socket.on('productsUpdated', (products) => {
-    const productsList = document.getElementById('productsList');
-    productsList.innerHTML = '';
-    products.forEach(product => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${product.title} - $${product.price}`;
-        productsList.appendChild(listItem);
-    });
-});
+const addProductForm = document.getElementById('add-product-form');
+const deleteProductForm = document.getElementById('delete-product-form');
 
-const newProductForm = document.getElementById('newProductForm');
-newProductForm.addEventListener('submit', (event) => {
+addProductForm.addEventListener('submit', event => {
     event.preventDefault();
     const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
-    const code = document.getElementById('code').value;
+    const code = document.getElementById('code').value
+    const status = document.getElementById('status').value
+    const stock = document.getElementById('stock').value
+    const category = document.getElementById('category').value
     const price = document.getElementById('price').value;
-    const stock = document.getElementById('stock').value;
-    const category = document.getElementById('category').value;
-    socket.emit('newProduct', { title, description, code, price, stock, category });
+    const description = document.getElementById('description').value;
+    const thumbnail = document.getElementById('thumbnails').value;
+    socket.emit('addProduct', { title, price , description, thumbnail , code , status ,stock , category });
+    addProductForm.reset();
+});
+
+deleteProductForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const id = document.getElementById('product-id').value;
+    socket.emit('deleteProduct', id);
+    deleteProductForm.reset();
 });

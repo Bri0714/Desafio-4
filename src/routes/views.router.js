@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { getProducts } = require('../controllers/products.controller.js');
+const { getProducts, getProductById, addProduct, updateProduct, deleteProduct } = require('../models/products.model.js');
 
 router.get('/', async (req, res) => {
-    const products = await getProducts(req.query.limit);
-    res.render('index', { products });
+    const products = getProducts();
+    res.render('home', { products });
+});
+
+router.get('/realtimeproducts', async (req, res) => {
+    const products = getProducts();
+    res.render('realtimeproducts', { products });
 });
 
 module.exports = router;

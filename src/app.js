@@ -4,6 +4,7 @@ const cartsRouter = require('./routes/carts.routes.js');
 const routerViews = require('./routes/views.router.js');
 const { Server } = require('socket.io')
 const handlebars = require('express-handlebars')
+const { addProduct, deleteProduct } = require('./models/products.model.js');
 
 
 const app = express();
@@ -35,12 +36,14 @@ io.on('connection', (socket) => {
     };
 
     // Escuchamos el evento de creación de un nuevo producto
-    socket.on('newProduct', () => {
+    socket.on('addProduct', (product) => {
+        addProduct(product);
         updateProducts();
     });
 
     // Escuchamos el evento de eliminación de un producto
-    socket.on('deleteProduct', () => {
+    socket.on('deleteProduct', (productId) => {
+        deleteProduct(productId);
         updateProducts();
     });
 });

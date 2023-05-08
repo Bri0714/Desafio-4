@@ -12,5 +12,33 @@
       "https://example.com/images/cm01-1.jpg",
       "https://example.com/images/cm01-2.jpg"
     ]
+  },
+  {
+    "title": "Camiseta amarilla",
+    "description": "Camiseta de algodón blanca para hombre",
+    "code": "CM04",
+    "price": 20.99,
+    "status": true,
+    "stock": 50,
+    "category": "Ropa",
+    "thumbnails": [
+      "https://example.com/images/cm01-1.jpg",
+      "https://example.com/images/cm01-2.jpg"
+    ],
+    "id": 3
+  },
+  {
+    "id": 4,
+    "title": "Camiseta amarilla",
+    "description": "Camiseta de algodón blanca para hombre",
+    "code": "CM03",
+    "price": 20.99,
+    "status": true,
+    "stock": 50,
+    "category": "Ropa",
+    "thumbnails": [
+      "https://example.com/images/cm01-1.jpg",
+      "https://example.com/images/cm01-2.jpg"
+    ]
   }
 ]
